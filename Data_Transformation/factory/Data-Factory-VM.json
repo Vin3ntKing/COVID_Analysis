@@ -1,0 +1,9 @@
+{
+	"name": "Data-Factory-VM",
+	"location": "eastus2",
+	"identity": {
+		"type": "SystemAssigned",
+		"principalId": "3e8e52f3-f8c5-4aaa-bac2-96934396e596",
+		"tenantId": "d57d32cc-c121-488f-b07b-dfe705680c71"
+	}
+}

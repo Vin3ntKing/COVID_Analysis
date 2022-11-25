@@ -1,0 +1,7 @@
+{
+	"name": "ir-i2fsoxg4a45l6",
+	"properties": {
+		"type": "SelfHosted",
+		"description": "Self-hosted Integration runtime created using ARM template"
+	}
+}
