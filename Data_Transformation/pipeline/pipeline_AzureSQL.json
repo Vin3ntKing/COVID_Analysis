@@ -47,7 +47,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet4",
+						"referenceName": "Country_AzureSQL",
 						"type": "DatasetReference"
 					}
 				]
@@ -104,7 +104,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet5",
+						"referenceName": "Metrics_AzureSQL",
 						"type": "DatasetReference"
 					}
 				]
@@ -161,7 +161,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet6",
+						"referenceName": "Dates_AzureSQL",
 						"type": "DatasetReference"
 					}
 				]

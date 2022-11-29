@@ -1,5 +1,5 @@
 {
-	"name": "Parquet6",
+	"name": "Dates_AzureSQL",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
