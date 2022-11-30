@@ -1,5 +1,5 @@
 {
-	"name": "SqlServerTable2",
+	"name": "SqlServerCountry",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "SqlServer_VM_Correct",

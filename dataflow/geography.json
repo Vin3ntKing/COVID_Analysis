@@ -13,7 +13,7 @@
 				},
 				{
 					"dataset": {
-						"referenceName": "SqlServerTable2",
+						"referenceName": "SqlServerCountry",
 						"type": "DatasetReference"
 					},
 					"name": "source2"

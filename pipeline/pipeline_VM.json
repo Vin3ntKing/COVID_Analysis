@@ -95,7 +95,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerTable2",
+						"referenceName": "SqlServerCountry",
 						"type": "DatasetReference"
 					}
 				],
@@ -152,7 +152,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerTable3",
+						"referenceName": "SqlServerCovidMetrics",
 						"type": "DatasetReference"
 					}
 				],
@@ -209,7 +209,7 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerTable4",
+						"referenceName": "SqlServerDates",
 						"type": "DatasetReference"
 					}
 				],
