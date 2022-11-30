@@ -1,5 +1,5 @@
 {
-	"name": "CosmosDbSqlApiCollection1",
+	"name": "CosmosCovidPolicy",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "CosmosDb1",

@@ -1,5 +1,5 @@
 {
-	"name": "Parquet4",
+	"name": "ParquetAzureCountry",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",

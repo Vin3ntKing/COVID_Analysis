@@ -1,5 +1,5 @@
 {
-	"name": "Parquet5",
+	"name": "ParquetAzureCovidMetrics",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
