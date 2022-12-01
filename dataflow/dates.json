@@ -1,0 +1,144 @@
+{
+	"name": "dates",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzureSqlDates",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "SqlServerDates",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          DateKey as integer,",
+				"          FullDate as date,",
+				"          isWeekDay as boolean,",
+				"          DayOfWeek as integer,",
+				"          DayOfMonth as integer,",
+				"          DayOfQuarter as integer,",
+				"          DayOfYear as integer,",
+				"          DayName as string,",
+				"          WeekOfYear as integer,",
+				"          WeekName as string,",
+				"          MonthOfYear as integer,",
+				"          MonthName as string,",
+				"          CalendarQuarter as integer,",
+				"          CalendarQuarterName as string,",
+				"          CalendarYear as integer,",
+				"          FiscalMonth as integer,",
+				"          FiscalMonthName as string,",
+				"          FiscalQuarter as integer,",
+				"          FiscalQuarterName as string,",
+				"          FiscalYear as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source(output(",
+				"          DateKey as integer,",
+				"          FullDate as date,",
+				"          isWeekDay as boolean,",
+				"          DayOfWeek as integer,",
+				"          DayOfMonth as integer,",
+				"          DayOfQuarter as integer,",
+				"          DayOfYear as integer,",
+				"          DayName as string,",
+				"          WeekOfYear as integer,",
+				"          WeekName as string,",
+				"          MonthOfYear as integer,",
+				"          MonthName as string,",
+				"          CalendarQuarter as integer,",
+				"          CalendarQuarterName as string,",
+				"          CalendarYear as integer,",
+				"          FiscalMonth as integer,",
+				"          FiscalMonthName as string,",
+				"          FiscalQuarter as integer,",
+				"          FiscalQuarterName as string,",
+				"          FiscalYear as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source2",
+				"source1, source2 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          DateKey = source1@DateKey,",
+				"          FullDate = source1@FullDate,",
+				"          isWeekDay = source1@isWeekDay,",
+				"          DayOfWeek = source1@DayOfWeek,",
+				"          DayOfMonth = source1@DayOfMonth,",
+				"          DayOfQuarter = source1@DayOfQuarter,",
+				"          DayOfYear = source1@DayOfYear,",
+				"          DayName = source1@DayName,",
+				"          WeekOfYear = source1@WeekOfYear,",
+				"          WeekName = source1@WeekName,",
+				"          MonthOfYear = source1@MonthOfYear,",
+				"          MonthName = source1@MonthName,",
+				"          CalendarQuarter = source1@CalendarQuarter,",
+				"          CalendarQuarterName = source1@CalendarQuarterName,",
+				"          CalendarYear = source1@CalendarYear,",
+				"          FiscalMonth = source1@FiscalMonth,",
+				"          FiscalMonthName = source1@FiscalMonthName,",
+				"          FiscalQuarter = source1@FiscalQuarter,",
+				"          FiscalQuarterName = source1@FiscalQuarterName,",
+				"          FiscalYear = source1@FiscalYear,",
+				"          DateKey = source2@DateKey,",
+				"          FullDate = source2@FullDate,",
+				"          isWeekDay = source2@isWeekDay,",
+				"          DayOfWeek = source2@DayOfWeek,",
+				"          DayOfMonth = source2@DayOfMonth,",
+				"          DayOfQuarter = source2@DayOfQuarter,",
+				"          DayOfYear = source2@DayOfYear,",
+				"          DayName = source2@DayName,",
+				"          WeekOfYear = source2@WeekOfYear,",
+				"          WeekName = source2@WeekName,",
+				"          MonthOfYear = source2@MonthOfYear,",
+				"          MonthName = source2@MonthName,",
+				"          CalendarQuarter = source2@CalendarQuarter,",
+				"          CalendarQuarterName = source2@CalendarQuarterName,",
+				"          CalendarYear = source2@CalendarYear,",
+				"          FiscalMonth = source2@FiscalMonth,",
+				"          FiscalMonthName = source2@FiscalMonthName,",
+				"          FiscalQuarter = source2@FiscalQuarter,",
+				"          FiscalQuarterName = source2@FiscalQuarterName,",
+				"          FiscalYear = source2@FiscalYear",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> sink1"
+			]
+		}
+	}
+}
