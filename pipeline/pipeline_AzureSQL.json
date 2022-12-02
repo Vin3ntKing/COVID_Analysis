@@ -4,7 +4,7 @@
 		"activities": [
 			{
 				"name": "Data_Sink_SQL_Country",
-				"description": "sink data from the VM SQL server to blob\nTable: Country",
+				"description": "sink data from the Azure SQL server to blob\nTable: Country",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -17,7 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
+						"type": "AzureSqlSource",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -42,20 +42,20 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerCountry",
+						"referenceName": "AzureSqlCountry",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetCountry",
+						"referenceName": "ParquetAzureCountry",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
 				"name": "Data_Sink_SQL_CovidMetrics",
-				"description": "sink data from the VM SQL server to blob\nTable: Covid19Metrics",
+				"description": "sink data from the Azure SQL server to blob\nTable: Covid19Metrics",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -75,7 +75,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
+						"type": "AzureSqlSource",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -100,20 +100,20 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerCovidMetrics",
+						"referenceName": "AzureSqlCovidMetrics",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetCovidMetrics",
+						"referenceName": "ParquetAzureCovidMetrics",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
 				"name": "Data_Sink_SQL_Dates",
-				"description": "sink data from the VM SQL server to blob\nTable: Dates",
+				"description": "sink data from the Azure SQL server to blob\nTable: Dates",
 				"type": "Copy",
 				"dependsOn": [
 					{
@@ -133,7 +133,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "SqlServerSource",
+						"type": "AzureSqlSource",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -158,13 +158,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerDates",
+						"referenceName": "AzureSqlDates",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetDates",
+						"referenceName": "ParquetAzureDates",
 						"type": "DatasetReference"
 					}
 				]
