@@ -3,7 +3,8 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Copy data1",
+				"name": "Data_Sink_SQL_Country",
+				"description": "sink data from the VM SQL server to blob\nTable: Country",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -16,7 +17,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource",
+						"type": "SqlServerSource",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -41,23 +42,24 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlTable1",
+						"referenceName": "SqlServerCountry",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet4",
+						"referenceName": "ParquetCountry",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Copy data2",
+				"name": "Data_Sink_SQL_CovidMetrics",
+				"description": "sink data from the VM SQL server to blob\nTable: Covid19Metrics",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy data1",
+						"activity": "Data_Sink_SQL_Country",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -73,7 +75,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource",
+						"type": "SqlServerSource",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -98,23 +100,24 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlTable2",
+						"referenceName": "SqlServerCovidMetrics",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet5",
+						"referenceName": "ParquetCovidMetrics",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Copy data3",
+				"name": "Data_Sink_SQL_Dates",
+				"description": "sink data from the VM SQL server to blob\nTable: Dates",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Copy data2",
+						"activity": "Data_Sink_SQL_CovidMetrics",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -130,7 +133,7 @@
 				"userProperties": [],
 				"typeProperties": {
 					"source": {
-						"type": "AzureSqlSource",
+						"type": "SqlServerSource",
 						"queryTimeout": "02:00:00",
 						"partitionOption": "None"
 					},
@@ -155,13 +158,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlTable3",
+						"referenceName": "SqlServerDates",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "Parquet6",
+						"referenceName": "ParquetDates",
 						"type": "DatasetReference"
 					}
 				]
