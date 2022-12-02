@@ -33,13 +33,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "CosmosCovidPolicy",
+						"referenceName": "CosmosDbSqlApiCollection1",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "JsonCountryPolicy",
+						"referenceName": "Json1",
 						"type": "DatasetReference"
 					}
 				]

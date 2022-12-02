@@ -41,13 +41,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlCountry",
+						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetAzureCountry",
+						"referenceName": "Parquet4",
 						"type": "DatasetReference"
 					}
 				]
@@ -98,13 +98,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlCovidMetrics",
+						"referenceName": "AzureSqlTable2",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetAzureCovidMetrics",
+						"referenceName": "Parquet5",
 						"type": "DatasetReference"
 					}
 				]
@@ -155,13 +155,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlDates",
+						"referenceName": "AzureSqlTable3",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetAzureDates",
+						"referenceName": "Parquet6",
 						"type": "DatasetReference"
 					}
 				]

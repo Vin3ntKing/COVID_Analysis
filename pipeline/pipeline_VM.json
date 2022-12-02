@@ -95,13 +95,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerCountry",
+						"referenceName": "SqlServerTable2",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetCountry",
+						"referenceName": "Parquet1",
 						"type": "DatasetReference"
 					}
 				]
@@ -152,13 +152,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerCovidMetrics",
+						"referenceName": "SqlServerTable3",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetCovidMetrics",
+						"referenceName": "Parquet2",
 						"type": "DatasetReference"
 					}
 				]
@@ -209,13 +209,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerDates",
+						"referenceName": "SqlServerTable4",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetDates",
+						"referenceName": "Parquet3",
 						"type": "DatasetReference"
 					}
 				]
