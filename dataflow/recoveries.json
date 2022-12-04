@@ -1,0 +1,104 @@
+{
+	"name": "recoveries",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "MetricsData_From_AzureSQL",
+						"type": "DatasetReference"
+					},
+					"name": "AzureSQLCovidMetrics"
+				},
+				{
+					"dataset": {
+						"referenceName": "MetricsData_From_SQL_VM",
+						"type": "DatasetReference"
+					},
+					"name": "SQLCovidMetrics"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "RecoveredTable",
+						"type": "DatasetReference"
+					},
+					"name": "SinkRecoveredData",
+					"description": "Sink data into a blob"
+				}
+			],
+			"transformations": [
+				{
+					"name": "join1"
+				},
+				{
+					"name": "FInalSelec"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          ID as integer,",
+				"          Updated as date,",
+				"          Confirmed as integer,",
+				"          Confirmed_Change as integer,",
+				"          Deaths as integer,",
+				"          Deaths_Change as integer,",
+				"          Recovered as integer,",
+				"          Recovered_Change as integer,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5),",
+				"          ISO2 as string,",
+				"          ISO3 as string,",
+				"          Country_Region as string,",
+				"          load_time as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> AzureSQLCovidMetrics",
+				"source(output(",
+				"          ID as integer,",
+				"          Updated as date,",
+				"          Confirmed as integer,",
+				"          Confirmed_Change as integer,",
+				"          Deaths as integer,",
+				"          Deaths_Change as integer,",
+				"          Recovered as integer,",
+				"          Recovered_Change as integer,",
+				"          Latitude as decimal(10,5),",
+				"          Longitude as decimal(10,5),",
+				"          ISO2 as string,",
+				"          ISO3 as string,",
+				"          Country_Region as string,",
+				"          load_time as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> SQLCovidMetrics",
+				"AzureSQLCovidMetrics, SQLCovidMetrics join(AzureSQLCovidMetrics@ID == SQLCovidMetrics@ID,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          ID = AzureSQLRecoveredColSelec@ID,",
+				"          Recovered = AzureSQLRecoveredColSelec@Recovered,",
+				"          Recovered_Change = AzureSQLRecoveredColSelec@Recovered_Change,",
+				"          ID = AzureSQLCovidMetrics@ID,",
+				"          Recovered = AzureSQLCovidMetrics@Recovered,",
+				"          Recovered_Change = AzureSQLCovidMetrics@Recovered_Change",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> FInalSelec",
+				"FInalSelec sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> SinkRecoveredData"
+			]
+		}
+	}
+}
