@@ -97,7 +97,8 @@
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> SinkRecoveredData"
+				"     skipDuplicateMapOutputs: true,",
+				"     saveOrder: 1) ~> SinkRecoveredData"
 			]
 		}
 	}
