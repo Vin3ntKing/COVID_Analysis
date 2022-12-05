@@ -21,6 +21,10 @@
 			],
 			"sinks": [
 				{
+					"linkedService": {
+						"referenceName": "AzureBlobStorage1",
+						"type": "LinkedServiceReference"
+					},
 					"name": "parquetOutput"
 				}
 			],
@@ -136,8 +140,11 @@
 				"     skipDuplicateMapOutputs: true) ~> selectDateInfo",
 				"selectDateInfo sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     format: 'parquet',",
+				"     partitionFileNames:['dates.parquet'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> parquetOutput"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> parquetOutput"
 			]
 		}
 	}
