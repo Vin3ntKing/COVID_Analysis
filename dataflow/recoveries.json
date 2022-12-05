@@ -31,10 +31,10 @@
 			],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "FInalSelec"
 				},
 				{
-					"name": "FInalSelec"
+					"name": "union1"
 				}
 			],
 			"scriptLines": [
@@ -78,21 +78,17 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     format: 'parquet') ~> SQLCovidMetrics",
-				"AzureSQLCovidMetrics, SQLCovidMetrics join(AzureSQLCovidMetrics@ID == SQLCovidMetrics@ID,",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1 select(mapColumn(",
-				"          ID = AzureSQLCovidMetrics@ID,",
-				"          ID = SQLCovidMetrics@ID,",
-				"          Recovered = AzureSQLCovidMetrics@Recovered,",
-				"          Recovered_Change = AzureSQLCovidMetrics@Recovered_Change,",
-				"          Recovered = SQLCovidMetrics@Recovered,",
-				"          Recovered_Change = SQLCovidMetrics@Recovered_Change",
+				"union1 select(mapColumn(",
+				"          ID,",
+				"          Updated,",
+				"          Recovered,",
+				"          Recovered_Change,",
+				"          Country_Region,",
+				"          load_time",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> FInalSelec",
+				"AzureSQLCovidMetrics, SQLCovidMetrics union(byName: true)~> union1",
 				"FInalSelec sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
