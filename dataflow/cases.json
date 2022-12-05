@@ -9,14 +9,14 @@
 						"referenceName": "AzureSqlCovidMetrics",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "AzureSqlCovidMetrics"
 				},
 				{
 					"dataset": {
 						"referenceName": "SqlServerCovidMetrics",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "SqlServerCovidMetrics"
 				}
 			],
 			"sinks": [
@@ -25,21 +25,21 @@
 						"referenceName": "AzureBlobStorage1",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink1"
+					"name": "parquetOutput"
 				}
 			],
 			"transformations": [
 				{
-					"name": "select1"
+					"name": "selectConfirmedCases"
 				},
 				{
-					"name": "select2"
+					"name": "selectConfirmedCases2"
 				},
 				{
-					"name": "join1"
+					"name": "leftOuterJoin"
 				},
 				{
-					"name": "select3"
+					"name": "selectConfirmedCases3"
 				}
 			],
 			"scriptLines": [
@@ -62,7 +62,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
+				"     format: 'table') ~> AzureSqlCovidMetrics",
 				"source(output(",
 				"          ID as integer,",
 				"          Updated as date,",
@@ -82,37 +82,37 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
-				"source1 select(mapColumn(",
+				"     format: 'table') ~> SqlServerCovidMetrics",
+				"AzureSqlCovidMetrics select(mapColumn(",
 				"          ID,",
 				"          Confirmed",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"source2 select(mapColumn(",
+				"     skipDuplicateMapOutputs: true) ~> selectConfirmedCases",
+				"SqlServerCovidMetrics select(mapColumn(",
 				"          ID,",
 				"          Confirmed",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select2",
-				"select1, select2 join(select1@ID == select2@ID,",
+				"     skipDuplicateMapOutputs: true) ~> selectConfirmedCases2",
+				"selectConfirmedCases, selectConfirmedCases2 join(selectConfirmedCases@ID == selectConfirmedCases@ID,",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1 select(mapColumn(",
-				"          ID = select1@ID,",
-				"          Confirmed = select1@Confirmed,",
-				"          ID = select2@ID,",
-				"          Confirmed = select2@Confirmed",
+				"     broadcast: 'auto')~> leftOuterJoin",
+				"leftOuterJoin select(mapColumn(",
+				"          ID = selectConfirmedCases@ID,",
+				"          Confirmed = selectConfirmedCases@Confirmed,",
+				"          ID = selectConfirmedCases@ID,",
+				"          Confirmed = selectConfirmedCases@Confirmed",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select3",
-				"select3 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectConfirmedCases3",
+				"selectConfirmedCases3 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> parquetOutput"
 			]
 		}
 	}
