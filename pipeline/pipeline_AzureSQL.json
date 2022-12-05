@@ -3,8 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "Data_Sink_SQL_Country",
-				"description": "sink data from the Azure SQL server to blob\nTable: Country",
+				"name": "Copy data1",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -42,24 +41,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlCountry",
+						"referenceName": "AzureSqlTable1",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetAzureCountry",
+						"referenceName": "Parquet4",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Data_Sink_SQL_CovidMetrics",
-				"description": "sink data from the Azure SQL server to blob\nTable: Covid19Metrics",
+				"name": "Copy data2",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Data_Sink_SQL_Country",
+						"activity": "Copy data1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -100,24 +98,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlCovidMetrics",
+						"referenceName": "AzureSqlTablemetrics",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetAzureCovidMetrics",
+						"referenceName": "Parquet5",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "Data_Sink_SQL_Dates",
-				"description": "sink data from the Azure SQL server to blob\nTable: Dates",
+				"name": "Copy data3",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "Data_Sink_SQL_CovidMetrics",
+						"activity": "Copy data2",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -158,13 +155,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "AzureSqlDates",
+						"referenceName": "AzureSqlTable3",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetAzureDates",
+						"referenceName": "Parquet6",
 						"type": "DatasetReference"
 					}
 				]

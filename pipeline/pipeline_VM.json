@@ -3,7 +3,7 @@
 	"properties": {
 		"activities": [
 			{
-				"name": "VM_Data_Country",
+				"name": "VM_Data",
 				"type": "Copy",
 				"dependsOn": [],
 				"policy": {
@@ -95,23 +95,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerCountry",
+						"referenceName": "SqlServerTable2",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetCountry",
+						"referenceName": "Parquet1",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "VM_Data_Metrics",
+				"name": "Copy data1",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "VM_Data_Country",
+						"activity": "VM_Data",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -152,23 +152,23 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerCovidMetrics",
+						"referenceName": "SqlServerTablemetrics",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetCovidMetrics",
+						"referenceName": "Parquet2",
 						"type": "DatasetReference"
 					}
 				]
 			},
 			{
-				"name": "VM_Data_Dates",
+				"name": "Copy data2",
 				"type": "Copy",
 				"dependsOn": [
 					{
-						"activity": "VM_Data_Metrics",
+						"activity": "Copy data1",
 						"dependencyConditions": [
 							"Succeeded"
 						]
@@ -209,13 +209,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "SqlServerDates",
+						"referenceName": "SqlServerTable4",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ParquetDates",
+						"referenceName": "Parquet3",
 						"type": "DatasetReference"
 					}
 				]
