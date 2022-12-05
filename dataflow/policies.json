@@ -9,7 +9,7 @@
 						"referenceName": "JsonCountryPolicy",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "JsonCountryPolicy"
 				}
 			],
 			"sinks": [
@@ -18,7 +18,7 @@
 						"referenceName": "AzureBlobStorage1",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink1"
+					"name": "parquetOutput"
 				}
 			],
 			"transformations": [],
@@ -83,12 +83,12 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> source1",
-				"source1 sink(allowSchemaDrift: true,",
+				"     documentForm: 'documentPerLine') ~> JsonCountryPolicy",
+				"JsonCountryPolicy sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true) ~> parquetOutput"
 			]
 		}
 	}

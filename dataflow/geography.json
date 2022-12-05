@@ -9,14 +9,14 @@
 						"referenceName": "AzureSqlCountry",
 						"type": "DatasetReference"
 					},
-					"name": "source1"
+					"name": "AzureSqlCountry"
 				},
 				{
 					"dataset": {
 						"referenceName": "SqlServerCountry",
 						"type": "DatasetReference"
 					},
-					"name": "source2"
+					"name": "SqlServerCountry"
 				}
 			],
 			"sinks": [
@@ -25,15 +25,15 @@
 						"referenceName": "AzureBlobStorage1",
 						"type": "LinkedServiceReference"
 					},
-					"name": "sink1"
+					"name": "parquetOutput"
 				}
 			],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "leftOuterJoin"
 				},
 				{
-					"name": "select1"
+					"name": "selectCountryInfo"
 				}
 			],
 			"scriptLines": [
@@ -46,7 +46,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
+				"     format: 'table') ~> AzureSqlCountry",
 				"source(output(",
 				"          Country as string,",
 				"          CountryCode as string,",
@@ -56,30 +56,30 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
-				"source1, source2 join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     format: 'table') ~> SqlServerCountry",
+				"AzureSqlCountry, SqlServerCountry join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
 				"     joinType:'left',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1 select(mapColumn(",
-				"          Country = source1@Country,",
-				"          CountryCode = source1@CountryCode,",
-				"          Latitude = source1@Latitude,",
-				"          Longitude = source1@Longitude,",
-				"          Country = source2@Country,",
-				"          CountryCode = source2@CountryCode,",
-				"          Latitude = source2@Latitude,",
-				"          Longitude = source2@Longitude",
+				"     broadcast: 'auto')~> leftOuterJoin",
+				"leftOuterJoin select(mapColumn(",
+				"          Country = AzureSqlCountry@Country,",
+				"          CountryCode = AzureSqlCountry@CountryCode,",
+				"          Latitude = AzureSqlCountry@Latitude,",
+				"          Longitude = AzureSqlCountry@Longitude,",
+				"          Country = SqlServerCountry@Country,",
+				"          CountryCode = SqlServerCountry@CountryCode,",
+				"          Latitude = SqlServerCountry@Latitude,",
+				"          Longitude = SqlServerCountry@Longitude",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1",
-				"select1 sink(allowSchemaDrift: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectCountryInfo",
+				"selectCountryInfo sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1) ~> sink1"
+				"     saveOrder: 1) ~> parquetOutput"
 			]
 		}
 	}
