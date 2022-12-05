@@ -92,9 +92,11 @@
 				"FInalSelec sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
+				"     partitionFileNames:['recoveries.parquet'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1) ~> SinkRecoveredData"
+				"     saveOrder: 1,",
+				"     partitionBy('hash', 1)) ~> SinkRecoveredData"
 			]
 		}
 	}
