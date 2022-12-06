@@ -1,5 +1,5 @@
 {
-	"name": "RecoveredTable",
+	"name": "RecoveredRecoveries",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzureBlobStorage1",
