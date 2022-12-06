@@ -98,9 +98,10 @@
 				"          load_time as timestamp",
 				"     ),",
 				"     format: 'parquet',",
-				"     partitionFileNames:['deaths.parquet'],",
+				"     partitionFileNames:[''],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> sink1"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> sink1"
 			]
 		}
 	}
