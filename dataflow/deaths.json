@@ -6,14 +6,14 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "SqlServerTablemetrics",
+						"referenceName": "MetricsData_From_AzureSQL",
 						"type": "DatasetReference"
 					},
 					"name": "source1"
 				},
 				{
 					"dataset": {
-						"referenceName": "AzureSqlTablemetrics",
+						"referenceName": "MetricsData_From_SQL_VM",
 						"type": "DatasetReference"
 					},
 					"name": "source2"
@@ -21,19 +21,19 @@
 			],
 			"sinks": [
 				{
-					"linkedService": {
-						"referenceName": "AzureBlobStorage1",
-						"type": "LinkedServiceReference"
+					"dataset": {
+						"referenceName": "DeathParquet",
+						"type": "DatasetReference"
 					},
 					"name": "sink1"
 				}
 			],
 			"transformations": [
 				{
-					"name": "join1"
+					"name": "select1"
 				},
 				{
-					"name": "select1"
+					"name": "union1"
 				}
 			],
 			"scriptLines": [
@@ -55,8 +55,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source1",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source1",
 				"source(output(",
 				"          ID as integer,",
 				"          Updated as date,",
@@ -75,17 +75,28 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> source2",
-				"source1, source2 join(source1@Deaths == source2@Deaths,",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1",
-				"join1 select(skipDuplicateMapInputs: true,",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> source2",
+				"union1 select(mapColumn(",
+				"          ID,",
+				"          Updated,",
+				"          Deaths,",
+				"          Deaths_Change,",
+				"          Country_Region",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
+				"source1, source2 union(byName: true)~> union1",
 				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          ID as integer,",
+				"          Updated as date,",
+				"          Recovered as integer,",
+				"          Recovered_Change as integer,",
+				"          Country_Region as string,",
+				"          load_time as timestamp",
+				"     ),",
 				"     format: 'parquet',",
 				"     partitionFileNames:['deaths.parquet'],",
 				"     skipDuplicateMapInputs: true,",
