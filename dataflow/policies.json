@@ -14,9 +14,9 @@
 			],
 			"sinks": [
 				{
-					"linkedService": {
-						"referenceName": "AzureBlobStorage1",
-						"type": "LinkedServiceReference"
+					"dataset": {
+						"referenceName": "PoliciesParquet",
+						"type": "DatasetReference"
 					},
 					"name": "parquetOutput"
 				}
@@ -86,9 +86,19 @@
 				"     documentForm: 'documentPerLine') ~> JsonCountryPolicy",
 				"JsonCountryPolicy sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     input(",
+				"          ID as integer,",
+				"          Updated as date,",
+				"          Recovered as integer,",
+				"          Recovered_Change as integer,",
+				"          Country_Region as string,",
+				"          load_time as timestamp",
+				"     ),",
 				"     format: 'parquet',",
+				"     partitionFileNames:['policies.parquet'],",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> parquetOutput"
+				"     skipDuplicateMapOutputs: true,",
+				"     partitionBy('hash', 1)) ~> parquetOutput"
 			]
 		}
 	}
