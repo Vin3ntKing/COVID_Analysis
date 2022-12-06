@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "RecoveredTable",
+						"referenceName": "RecoveredRecoveries",
 						"type": "DatasetReference"
 					},
 					"name": "SinkRecoveredData",
