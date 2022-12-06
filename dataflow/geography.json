@@ -10,13 +10,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "AzureSqlCountry"
-				},
-				{
-					"dataset": {
-						"referenceName": "SqlServerCountry",
-						"type": "DatasetReference"
-					},
-					"name": "SqlServerCountry"
 				}
 			],
 			"sinks": [
@@ -28,14 +21,7 @@
 					"name": "parquetOutput"
 				}
 			],
-			"transformations": [
-				{
-					"name": "leftOuterJoin"
-				},
-				{
-					"name": "selectCountryInfo"
-				}
-			],
+			"transformations": [],
 			"scriptLines": [
 				"source(output(",
 				"          Country as string,",
@@ -47,39 +33,15 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> AzureSqlCountry",
-				"source(output(",
-				"          Country as string,",
-				"          CountryCode as string,",
-				"          Latitude as decimal(10,5),",
-				"          Longitude as decimal(10,5)",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> SqlServerCountry",
-				"AzureSqlCountry, SqlServerCountry join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     joinType:'left',",
-				"     matchType:'exact',",
-				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> leftOuterJoin",
-				"leftOuterJoin select(mapColumn(",
-				"          Country = AzureSqlCountry@Country,",
-				"          CountryCode = AzureSqlCountry@CountryCode,",
-				"          Latitude = AzureSqlCountry@Latitude,",
-				"          Longitude = AzureSqlCountry@Longitude,",
-				"          Country = SqlServerCountry@Country,",
-				"          CountryCode = SqlServerCountry@CountryCode,",
-				"          Latitude = SqlServerCountry@Latitude,",
-				"          Longitude = SqlServerCountry@Longitude",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectCountryInfo",
-				"selectCountryInfo sink(allowSchemaDrift: true,",
+				"AzureSqlCountry sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     format: 'parquet',",
+				"     container: 'workspace',",
+				"     partitionFileNames:['geography.parquet'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     saveOrder: 1) ~> parquetOutput"
+				"     saveOrder: 1,",
+				"     partitionBy('hash', 1)) ~> parquetOutput"
 			]
 		}
 	}
