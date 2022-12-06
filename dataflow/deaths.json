@@ -98,7 +98,7 @@
 				"          load_time as timestamp",
 				"     ),",
 				"     format: 'parquet',",
-				"     partitionFileNames:[''],",
+				"     partitionFileNames:['death.parquet'],",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
 				"     partitionBy('hash', 1)) ~> sink1"
