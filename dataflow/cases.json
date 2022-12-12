@@ -6,7 +6,7 @@
 			"sources": [
 				{
 					"dataset": {
-						"referenceName": "AzureSqlCovidMetrics",
+						"referenceName": "MetricsData_From_AzureSQL",
 						"type": "DatasetReference"
 					},
 					"name": "AzureSqlCovidMetrics"
@@ -55,8 +55,8 @@
 				"     ),",
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> AzureSqlCovidMetrics",
+				"     ignoreNoFilesFound: false,",
+				"     format: 'parquet') ~> AzureSqlCovidMetrics",
 				"source(output(",
 				"          ID as integer,",
 				"          Updated as date,",
