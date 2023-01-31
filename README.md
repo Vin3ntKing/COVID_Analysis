@@ -1,4 +1,4 @@
-# DS310_COVID_Analysis
+# COVID_Analysis
 BU DS310 Team 1 working repository \
 Team Members: \
 Alberto Attie Hanono \
